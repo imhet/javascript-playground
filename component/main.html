@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colored Border Rectangle</title>
+<style>
+    #rectangle {
+        display: grid;
+        grid-template-columns: repeat(3, 100px);
+        grid-template-rows: repeat(3, 100px);
+    }
+
+    #rectangle > div {
+        border: 1px solid #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+</style>
+</head>
+<body>
+
+<div id="rectangle">
+    <div id="cell1"></div>
+    <div id="cell2"></div>
+    <div id="cell3"></div>
+    <div id="cell4"></div>
+    <div id="cell5"></div>
+    <div id="cell6"></div>
+    <div id="cell7"></div>
+    <div id="cell8"></div>
+    <div id="cell9"></div>
+</div>
+
+<script>
+    // 数字数组，用于填充单元格
+    const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+    // 随机生成颜色
+    function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    // 获取单元格元素并填充内容和颜色
+    for (let i = 0; i < numbers.length; i++) {
+        const cell = document.getElementById(`cell${i + 1}`);
+        cell.textContent = numbers[i];
+        const color = getRandomColor();
+        cell.style.color = color;
+        cell.style.borderColor = color;
+    }
+</script>
+
+</body>
+</html>
