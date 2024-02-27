@@ -3,67 +3,106 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Colored Rectangle</title>
+<title>Dynamic Grid</title>
 <style>
     body {
+        margin: 0;
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
-        margin: 0;
     }
 
-    .container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        align-items: flex-start; /* Align to the top of each row */
-        gap: 10px; /* Increased gap between cells */
+    .grid-container {
+        display: grid;
+        padding: 10px;
+        gap: 2px;
+        justify-content: center;
     }
 
     .cell {
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 20px; /* Decreased font size */
-        font-weight: bold;
-        border: 2px solid transparent;
+        border: 2px solid transparent; /* Initially transparent, will be updated by JS */
         width: 80px; /* Adjusted width */
         height: 60px; /* Adjusted height */
+        margin-bottom: 10px;
+        margin-right: 10px;
+        font-size: 10px; /* Decreased font size */
+        font-weight: bold;
     }
 </style>
 </head>
 <body>
-<div class="container" id="container"></div>
+<div class="grid-container" id="gridContainer"></div>
+
 <script>
-    const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    const maxCellsPerRow = 5; // Adjusted for the correct order
-    const container = document.getElementById('container');
-    let currentRow = document.createElement('div');
-    currentRow.classList.add('row');
+    // Sample data
+    const projectArray = ['WC','HY' , 'FCB', 'YW', 'TS', 'KC','HW'];
+    const businessArray = ['爱车页','空调' , '授权管理', 'OTA 升级', 'NFC 钥匙', '能耗排名','千里眼','车辆状态','发送位置','遥控驾驶','商场'];
+    const serviceArray = ['身份校验','基础业务' ,'文件上传', '发帖', '地图基础', '账号登录'];
+    const baseArray = ['网络','通用工具' , '通用UI', '蓝牙基础', 'NFC基础', '二维码','埋点','日志','通用类库'];
 
-    numbers.forEach((number, index) => {
-        const cell = document.createElement('div');
-        cell.classList.add('cell');
-        const randomColor = getRandomColor();
-        cell.style.borderColor = randomColor;
-        cell.textContent = number;
-        currentRow.appendChild(cell);
+    const columns = 7;
+    const data = concatenateArrays([projectArray, businessArray, serviceArray, baseArray],columns);
+    const rows = Math.ceil(data.length / columns); 
 
-        if ((index + 1) % maxCellsPerRow === 0 || index === numbers.length - 1) {
-            container.appendChild(currentRow);
-            currentRow = document.createElement('div');
-            currentRow.classList.add('row');
-        }
-    });
+    console.log(data)
 
-    // Function to generate a random color from a predefined list
+    function concatenateArrays(arrays, N) {
+        // 补齐数组
+        const paddedArrays = arrays.map(arr => {
+            const paddingCount = arr.length % N === 0 ? 0 : N - (arr.length % N);
+            const padding = new Array(paddingCount).fill(0);
+            return arr.concat(padding);
+        });
+
+        // 拼接数组
+        const concatenatedArray = paddedArrays.reduce((result, arr) => result.concat(arr), []);
+
+        return concatenatedArray;
+    }
+    
+    // Function to generate random color
     function getRandomColor() {
-        const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'brown', 'black', 'gray'];
-        return colors[Math.floor(Math.random() * colors.length)];
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
     }
 
-    console.log(container.outerHTML)
+    // Create grid
+    const gridContainer = document.getElementById('gridContainer');
+
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < columns; j++) {
+            const dataIndex = i * columns + j;
+            const cellValue = data[dataIndex];
+
+            console.log(cellValue)
+
+            if(cellValue == 0  || cellValue == undefined) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                gridContainer.appendChild(cell);
+            } else {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.textContent = cellValue;
+                const color = getRandomColor();
+                cell.style.color = color;
+                cell.style.borderColor = color;
+                gridContainer.appendChild(cell);
+            }
+        }
+    }
+
+    // Apply grid layout
+    gridContainer.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+    gridContainer.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
 
 </script>
 </body>
