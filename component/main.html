@@ -24,12 +24,12 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        border: 2px solid transparent; /* Initially transparent, will be updated by JS */
-        width: 80px; /* Adjusted width */
-        height: 60px; /* Adjusted height */
+        border: 2px solid transparent; 
+        width: 80px; 
+        height: 60px; 
         margin-bottom: 10px;
         margin-right: 10px;
-        font-size: 10px; /* Decreased font size */
+        font-size: 15px; 
         font-weight: bold;
     }
 </style>
@@ -38,18 +38,6 @@
 <div class="grid-container" id="gridContainer"></div>
 
 <script>
-    // Sample data
-    const projectArray = ['WC','HY' , 'FCB', 'YW', 'TS', 'KC','HW'];
-    const businessArray = ['爱车页','空调' , '授权管理', 'OTA 升级', 'NFC 钥匙', '能耗排名','千里眼','车辆状态','发送位置','遥控驾驶','商场'];
-    const serviceArray = ['身份校验','基础业务' ,'文件上传', '发帖', '地图基础', '账号登录'];
-    const baseArray = ['网络','通用工具' , '通用UI', '蓝牙基础', 'NFC基础', '二维码','埋点','日志','通用类库'];
-
-    const columns = 7;
-    const data = concatenateArrays([projectArray, businessArray, serviceArray, baseArray],columns);
-    const rows = Math.ceil(data.length / columns); 
-
-    console.log(data)
-
     function concatenateArrays(arrays, N) {
         // 补齐数组
         const paddedArrays = arrays.map(arr => {
@@ -57,14 +45,11 @@
             const padding = new Array(paddingCount).fill(0);
             return arr.concat(padding);
         });
-
         // 拼接数组
         const concatenatedArray = paddedArrays.reduce((result, arr) => result.concat(arr), []);
-
         return concatenatedArray;
     }
     
-    // Function to generate random color
     function getRandomColor() {
         const letters = '0123456789ABCDEF';
         let color = '#';
@@ -74,6 +59,73 @@
         return color;
     }
 
+    const projects = [
+        { "level": "project", "name": "WC", "state": "unstart", "includeBy": "dynasty" },
+        { "level": "project", "name": "HY", "state": "unstart", "includeBy": "sea" },
+        { "level": "project", "name": "FCB", "state": "unstart", "includeBy": "fever" },
+        { "level": "project", "name": "YW", "state": "unstart", "includeBy": "revolution" },
+        { "level": "project", "name": "TS", "state": "unstart", "includeBy": "denza" },
+        { "level": "project", "name": "KC", "state": "unstart", "includeBy": "trunk" },
+        { "level": "project", "name": "HW", "state": "unstart", "includeBy": "oversea" }
+    ];
+    const businesss = [
+        { level: 'business', name: '爱车页', state: 'unstart', includeBy: 'sea' },
+        { level: 'business', name: '空调', state: 'unstart', includeBy: 'sea' },
+        { level: 'business', name: '授权管理', state: 'unstart', includeBy: 'sea' },
+        { level: 'business', name: 'OTA 升级', state: 'unstart', includeBy: 'sea' },
+        { level: 'business', name: 'NFC 钥匙', state: 'unstart', includeBy: 'sea' },
+        { level: 'business', name: '能耗排名', state: 'unstart', includeBy: 'sea' },
+        { level: 'business', name: '千里眼', state: 'unstart', includeBy: 'sea' },
+        { level: 'business', name: '车辆状态', state: 'unstart', includeBy: 'sea' },
+        { level: 'business', name: '发送位置', state: 'unstart', includeBy: 'sea' },
+        { level: 'business', name: '遥控驾驶', state: 'unstart', includeBy: 'sea' },
+        { level: 'business', name: '商场', state: 'unstart', includeBy: 'sea' }
+    ];
+    const services = [
+        { level: 'service', name: '身份校验', state: 'unstart', includeBy: 'sea' },
+        { level: 'service', name: '基础业务', state: 'unstart', includeBy: 'sea' },
+        { level: 'service', name: '文件上传', state: 'unstart', includeBy: 'sea' },
+        { level: 'service', name: '发帖', state: 'unstart', includeBy: 'sea' },
+        { level: 'service', name: '地图基础', state: 'unstart', includeBy: 'sea' },
+        { level: 'service', name: '账号登录', state: 'unstart', includeBy: 'sea' }
+    ];
+    const bases = [
+        { level: 'base', name: '网络', state: 'unstart', includeBy: 'sea' },
+        { level: 'base', name: '通用工具', state: 'unstart', includeBy: 'sea' },
+        { level: 'base', name: '通用UI', state: 'unstart', includeBy: 'sea' },
+        { level: 'base', name: '蓝牙基础', state: 'unstart', includeBy: 'sea' },
+        { level: 'base', name: 'NFC基础', state: 'unstart', includeBy: 'sea' },
+        { level: 'base', name: '二维码', state: 'unstart', includeBy: 'sea' },
+        { level: 'base', name: '埋点', state: 'unstart', includeBy: 'sea' },
+        { level: 'base', name: '日志', state: 'unstart', includeBy: 'sea' },
+        { level: 'base', name: '通用类库', state: 'unstart', includeBy: 'sea' }
+    ];
+
+    const projectArray = projects.reduce((result, project) => {
+        result.push(project);
+        return result;
+    }, []);
+    console.log(projectArray);
+    const businessArray = businesss.reduce((result, project) => {
+        result.push(project);
+        return result;
+    }, []);
+    const serviceArray = services.reduce((result, project) => {
+        result.push(project);
+        return result;
+    }, []);
+    const baseArray = bases.reduce((result, project) => {
+        result.push(project);
+        return result;
+    }, []);
+
+    
+    const columns = 7;
+    const data = concatenateArrays([projectArray, businessArray, serviceArray, baseArray],columns);
+    const rows = Math.ceil(data.length / columns); 
+
+    console.log(data)
+
     // Create grid
     const gridContainer = document.getElementById('gridContainer');
 
@@ -82,8 +134,6 @@
             const dataIndex = i * columns + j;
             const cellValue = data[dataIndex];
 
-            console.log(cellValue)
-
             if(cellValue == 0  || cellValue == undefined) {
                 const cell = document.createElement('div');
                 cell.className = 'cell';
@@ -91,8 +141,8 @@
             } else {
                 const cell = document.createElement('div');
                 cell.className = 'cell';
-                cell.textContent = cellValue;
-                const color = getRandomColor();
+                cell.textContent = cellValue.name;
+                const color = "#4169E1"; //  getRandomColor();
                 cell.style.color = color;
                 cell.style.borderColor = color;
                 gridContainer.appendChild(cell);
