@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>抽奖转盘</title>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+    }
+    .container {
+        position: relative;
+        width: 400px;
+        height: 400px;
+    }
+    .wheel {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        /* background: conic-gradient(
+            from 0deg,
+            #FF5733,
+            #FFC300,
+            #DAF7A6,
+            #FF5733,
+            #FFC300,
+            #DAF7A6,
+            #FF5733,
+            #FFC300,
+            #DAF7A6,
+            #FF5733,
+            #FFC300,
+            #DAF7A6,
+            #FF5733,
+            #FFC300,
+            #DAF7A6,
+            #FF5733
+        ); */
+        /* animation: rotateWheel 5s linear infinite; */
+    }
+    .center-button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: #333;
+        color: #fff;
+        font-size: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+    .number {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-11.25deg); /* rotate each number to match the wheel sectors */
+        font-size: 20px;
+        font-weight: bold;
+        color: #0e0e0e;
+    }
+    @keyframes rotateWheel {
+        100% {
+            transform: translate(-50%, -50%) rotate(360deg);
+        }
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="wheel">
+            <!-- Add numbers to each sector -->
+            <div class="number" style="transform: rotate(11.25deg)">1</div>
+            <div class="number" style="transform: rotate(22.5deg)">2</div>
+            <div class="number" style="transform: rotate(33.75deg)">3</div>
+            <div class="number" style="transform: rotate(45deg)">4</div>
+            <div class="number" style="transform: rotate(56.25deg)">5</div>
+            <div class="number" style="transform: rotate(67.5deg)">6</div>
+            <div class="number" style="transform: rotate(78.75deg)">7</div>
+            <div class="number" style="transform: rotate(90deg)">8</div>
+            <div class="number" style="transform: rotate(101.25deg)">9</div>
+            <div class="number" style="transform: rotate(112.5deg)">10</div>
+            <div class="number" style="transform: rotate(123.75deg)">11</div>
+            <div class="number" style="transform: rotate(135deg)">12</div>
+            <div class="number" style="transform: rotate(146.25deg)">13</div>
+            <div class="number" style="transform: rotate(157.5deg)">14</div>
+            <div class="number" style="transform: rotate(168.75deg)">15</div>
+            <div class="number" style="transform: rotate(180deg)">16</div>
+        </div>
+        <div class="center-button" onclick="spinWheel()">周末去哪</div>
+    </div>
+
+    <script>
+        function spinWheel() {
+            const wheel = document.querySelector('.wheel');
+            const degrees = 360;
+            wheel.style.transition = 'transform 5s ease-out';
+            wheel.style.transform = `translate(-50%, -50%) rotate(${degrees}deg)`;
+
+            setTimeout(() => {
+                const winner = Math.floor(Math.random() * 16) + 1; // 随机生成1到16之间的整数作为中奖号码
+                alert(`恭喜！中奖号码为：${winner}`);
+                wheel.style.transition = 'none';
+                wheel.style.transform = 'translate(-50%, -50%) rotate(0deg)';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

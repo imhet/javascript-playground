@@ -49,26 +49,34 @@
         const concatenatedArray = paddedArrays.reduce((result, arr) => result.concat(arr), []);
         return concatenatedArray;
     }
-    
-    function getRandomColor() {
-        const letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
+
+    function getColorByLevel(level) {
+        const levelColors = {
+            "project": "#4169E1",
+            "business": "#FFA500",
+            "service": "#800080",
+            "base": "#90EE90"
+        };
+        return levelColors[level] || "";
     }
 
+    function toArray(array) {
+        return array.reduce((result, item) => {
+            result.push(item);
+            return result;
+        }, []);
+    }
+    
     const projects = [
-        { "level": "project", "name": "WC", "state": "unstart", "includeBy": "dynasty" },
-        { "level": "project", "name": "HY", "state": "unstart", "includeBy": "sea" },
-        { "level": "project", "name": "FCB", "state": "unstart", "includeBy": "fever" },
-        { "level": "project", "name": "YW", "state": "unstart", "includeBy": "revolution" },
-        { "level": "project", "name": "TS", "state": "unstart", "includeBy": "denza" },
-        { "level": "project", "name": "KC", "state": "unstart", "includeBy": "trunk" },
-        { "level": "project", "name": "HW", "state": "unstart", "includeBy": "oversea" }
+        { level: "project", name: "WC", state: "unstart", includeBy: "dynasty" },
+        { level: "project", name: "HY", state: "unstart", includeBy: "sea" },
+        { level: "project", name: "FCB", state: "unstart", includeBy: "fever" },
+        { level: "project", name: "YW", state: "unstart", includeBy: "revolution" },
+        { level: "project", name: "TS", state: "unstart", includeBy: "denza" },
+        { level: "project", name: "KC", state: "unstart", includeBy: "trunk" },
+        { level: "project", name: "HW", state: "unstart", includeBy: "oversea" }
     ];
-    const businesss = [
+    const businesses = [
         { level: 'business', name: '爱车页', state: 'unstart', includeBy: 'sea' },
         { level: 'business', name: '空调', state: 'unstart', includeBy: 'sea' },
         { level: 'business', name: '授权管理', state: 'unstart', includeBy: 'sea' },
@@ -101,30 +109,14 @@
         { level: 'base', name: '通用类库', state: 'unstart', includeBy: 'sea' }
     ];
 
-    const projectArray = projects.reduce((result, project) => {
-        result.push(project);
-        return result;
-    }, []);
-    console.log(projectArray);
-    const businessArray = businesss.reduce((result, project) => {
-        result.push(project);
-        return result;
-    }, []);
-    const serviceArray = services.reduce((result, project) => {
-        result.push(project);
-        return result;
-    }, []);
-    const baseArray = bases.reduce((result, project) => {
-        result.push(project);
-        return result;
-    }, []);
+    const projectArray = toArray(projects);
+    const businessArray = toArray(businesses);
+    const serviceArray = toArray(services);
+    const baseArray = toArray(bases);
 
-    
     const columns = 7;
     const data = concatenateArrays([projectArray, businessArray, serviceArray, baseArray],columns);
     const rows = Math.ceil(data.length / columns); 
-
-    console.log(data)
 
     // Create grid
     const gridContainer = document.getElementById('gridContainer');
@@ -142,9 +134,10 @@
                 const cell = document.createElement('div');
                 cell.className = 'cell';
                 cell.textContent = cellValue.name;
-                const color = "#4169E1"; //  getRandomColor();
-                cell.style.color = color;
+                const color = getColorByLevel(cellValue.level);
+                cell.style.color = "#000000";// color;
                 cell.style.borderColor = color;
+                // cell.style.background = `linear-gradient(to right, black 80%, white 80%)`;
                 gridContainer.appendChild(cell);
             }
         }
