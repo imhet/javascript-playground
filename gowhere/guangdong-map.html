@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>深圳地图</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    #container {
+      width: 500px;
+      height: 800px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container"></div>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js"></script>
+  <script>
+    var myChart = echarts.init(document.getElementById('container'));
+    $.get('https://geo.datav.aliyun.com/areas_v3/bound/440300_full.json', result => {
+      // 注册 echarts 地图
+      echarts.registerMap('深圳市', result);
+      var option = {
+        tooltip: {
+          trigger: 'item',
+        },
+        title: {
+          text: '深圳地图',
+          x: "center",
+        },
+        geo: {
+          map: '深圳市',
+          label: {},
+          roam: true,
+          itemStyle: {
+
+          }
+        },
+        series: [{
+          type: 'effectScatter',
+          coordinateSystem: 'geo',
+          rippleEffect: {
+            brushType: 'stroke'
+          },
+          symbolSize: function(val, params) {
+            return 8;
+          },
+          data: [],
+        }]
+      };
+      myChart.setOption(option);
+    })
+  </script>
+</body>
+
+</html>
