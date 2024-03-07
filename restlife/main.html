@@ -1,113 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Life Countdown</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Countdown</title>
+    <script src="node_modules/solarlunar-es/dist/solarlunar.cjs.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-    #countdown {
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
+        #countdown {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
 
-    #remainingMeals {
-      font-size: 18px;
-    }
-  </style>
+        #remainingMeals {
+            font-size: 18px;
+        }
+    </style>
 </head>
+
 <body>
 
-<div id="countdown"></div>
-<div id="remainingMeals"></div>
-<div id="remainingMakeloves"></div>
-<div id="remainingGoHome"></div>
-<div id="nextBirthday1"></div>
-<div id="nextBirthday2"></div>
-<div id="nextBirthday3"></div>
+    <div id="countdown"></div>
+    <div id="remainingMeals"></div>
+    <div id="remainingMakeloves"></div>
+    <div id="remainingGoHome"></div>
+    <div id="nextBirthday1"></div>
+    <div id="nextBirthday2"></div>
+    <div id="nextBirthday3"></div>
+    <br />
+    <div id="sinceEmployed"></div>
 
-<script>
-  // Set average lifespan and current age
-  const averageLifespan = 80;
-  const currentAge = 37;
-  const lovesAge = 55;
-  const parentAge = 60;
-  // Set target date
-  const targetDate = new Date('2074-03-05T00:00:00');
+    <script>
+        // import solarLunar from 'solarlunar.cjs';
 
-  function calculateRemainingTime(currentAge, averageLifespan, targetDate, lovesAge, parentAge) {
-    const remainingMilliseconds = targetDate - new Date();
-    const remainingDays = Math.floor(remainingMilliseconds / (1000 * 60 * 60 * 24));
+        // Set average lifespan and current age
+        const averageLifespan = 80;
+        const currentAge = 37;
+        const lovesAge = 55;
+        const parentAge = 60;
+        // Set target date
+        const targetDate = new Date('2074-03-05T00:00:00');
 
-    const remainingMeals = remainingDays * 2;
-    const remainingLoves = (lovesAge - currentAge > 0) ? remainingDays * 1 : 0;
-    const remainingHomes = (averageLifespan - parentAge > 0) ? (averageLifespan - parentAge) * 5 : 0;
+        function calculateRemainingTime(currentAge, averageLifespan, targetDate, lovesAge, parentAge) {
+            const remainingMilliseconds = targetDate - new Date();
+            const remainingDays = Math.floor(remainingMilliseconds / (1000 * 60 * 60 * 24));
 
-    return {
-      years: Math.floor(remainingDays / 365),
-      months: Math.floor((remainingDays % 365) / 30),
-      days: remainingDays % 30,
-      hours: Math.floor((remainingMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-      minutes: Math.floor((remainingMilliseconds % (1000 * 60 * 60)) / (1000 * 60)),
-      seconds: Math.floor((remainingMilliseconds % (1000 * 60)) / 1000),
-      meals: remainingMeals,
-      loves: remainingLoves,
-      homes: remainingHomes
-    };
-  }
+            const remainingMeals = remainingDays * 2;
+            const remainingLoves = (lovesAge - currentAge > 0) ? remainingDays * 1 : 0;
+            const remainingHomes = (averageLifespan - parentAge > 0) ? (averageLifespan - parentAge) * 5 : 0;
 
-  function calculateBirthdayRemainingTime(birthday) {
-    const today = new Date();
-    const nextBirthdayYear = today.getFullYear();
-    const nextBirthday = new Date(nextBirthdayYear, birthday.getMonth(), birthday.getDate());
+            return {
+                years: Math.floor(remainingDays / 365),
+                months: Math.floor((remainingDays % 365) / 30),
+                days: remainingDays % 30,
+                hours: Math.floor((remainingMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+                minutes: Math.floor((remainingMilliseconds % (1000 * 60 * 60)) / (1000 * 60)),
+                seconds: Math.floor((remainingMilliseconds % (1000 * 60)) / 1000),
+                meals: remainingMeals,
+                loves: remainingLoves,
+                homes: remainingHomes
+            };
+        }
 
-    if (today > nextBirthday) {
-      nextBirthday.setFullYear(nextBirthdayYear + 1);
-    }
+        function calcBirthdayRemain(birthday) {
+            const today = new Date();
+            const nextBirthdayYear = today.getFullYear();
+            const nextBirthday = new Date(nextBirthdayYear, birthday.getMonth(), birthday.getDate());
 
-    const remainingMilliseconds = nextBirthday - today;
-    return {
-      months: Math.floor(remainingMilliseconds / (1000 * 60 * 60 * 24 * 30)),
-      days: Math.floor((remainingMilliseconds % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24)),
-      hours: Math.floor((remainingMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-      minutes: Math.floor((remainingMilliseconds % (1000 * 60 * 60)) / (1000 * 60)),
-      seconds: Math.floor((remainingMilliseconds % (1000 * 60)) / 1000)
-    };
-  }
+            if (today > nextBirthday) {
+                nextBirthday.setFullYear(nextBirthdayYear + 1);
+            }
 
-  // Update countdown and remaining meals every minute
-  function updateCountdown() {
-    const remainingTime = calculateRemainingTime(currentAge, averageLifespan, targetDate, lovesAge, parentAge);
+            const remainingMilliseconds = nextBirthday - today;
+            return {
+                months: Math.floor(remainingMilliseconds / (1000 * 60 * 60 * 24 * 30)),
+                days: Math.floor((remainingMilliseconds % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24)),
+                hours: Math.floor((remainingMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+                minutes: Math.floor((remainingMilliseconds % (1000 * 60 * 60)) / (1000 * 60)),
+                seconds: Math.floor((remainingMilliseconds % (1000 * 60)) / 1000)
+            };
+        }
 
-    document.getElementById('countdown').textContent = `您还剩下：${remainingTime.years}年 ${remainingTime.months}月 ${remainingTime.days}天 ${remainingTime.hours}小时 ${remainingTime.minutes}分钟 ${remainingTime.seconds}秒`;
-    document.getElementById('remainingMeals').textContent = `您还可以吃 ${remainingTime.meals} 顿饭`;
-    document.getElementById('remainingMakeloves').textContent = `您还可以做 ${remainingTime.loves} 次爱`;
-    document.getElementById('remainingGoHome').textContent = `您还可以回老家看望父母 ${remainingTime.homes} 次`;
+        function calculateTimeDifference(givenDate, displayUnit) {
+            var currentDate = new Date();
+            givenDate = new Date(givenDate);
+            var timeDifference = givenDate - currentDate;
 
-    const nextBirthday1 = calculateBirthdayRemainingTime(new Date('2022-07-29T00:00:00'));
-    const nextBirthday2 = calculateBirthdayRemainingTime(new Date('2022-05-03T00:00:00'));
-    const nextBirthday3 = calculateBirthdayRemainingTime(new Date('2022-01-01T00:00:00'));
+            var timeValue;
+            switch (displayUnit) {
+                case 'days':
+                    timeValue = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+                    break;
+                case 'weeks':
+                    timeValue = Math.ceil(timeDifference / (1000 * 60 * 60 * 24 * 7));
+                    break;
+                case 'months':
+                    timeValue = Math.ceil(timeDifference / (1000 * 60 * 60 * 24 * 30));
+                    break;
+                default:
+                    return "Invalid display unit";
+            }
+            return timeValue;
+        }
 
-    document.getElementById('nextBirthday1').textContent = `曲天生日倒计时： ${nextBirthday1.months} 个月 ${nextBirthday1.days} 天 ${nextBirthday1.hours} 小时 ${nextBirthday1.minutes} 分钟 ${nextBirthday1.seconds} 秒`;
-    document.getElementById('nextBirthday2').textContent = `嘟嘟生日倒计时： ${nextBirthday2.months} 个月 ${nextBirthday2.days} 天 ${nextBirthday2.hours} 小时 ${nextBirthday2.minutes} 分钟 ${nextBirthday2.seconds} 秒`;
-    document.getElementById('nextBirthday3').textContent = `小行生日倒计时： ${nextBirthday3.months} 个月 ${nextBirthday3.days} 天 ${nextBirthday3.hours} 小时 ${nextBirthday3.minutes} 分钟 ${nextBirthday3.seconds} 秒`;
-  }
+        // Update countdown and remaining meals every minute
+        function updateCountdown() {
+            const remainingTime = calculateRemainingTime(currentAge, averageLifespan, targetDate, lovesAge, parentAge);
 
-  // Initial update
-  updateCountdown();
+            document.getElementById('countdown').textContent = `您还剩下：${remainingTime.years}年 ${remainingTime.months}月 ${remainingTime.days}天 ${remainingTime.hours}小时 ${remainingTime.minutes}分钟 ${remainingTime.seconds}秒`;
+            document.getElementById('remainingMeals').textContent = `您还可以吃 ${remainingTime.meals} 顿饭`;
+            document.getElementById('remainingMakeloves').textContent = `您还可以做 ${remainingTime.loves} 次爱`;
+            document.getElementById('remainingGoHome').textContent = `您还可以回老家看望父母 ${remainingTime.homes} 次`;
 
-  // Update every minute
-  setInterval(updateCountdown, 1000);
-</script>
+            const nextBirthday1 = calcBirthdayRemain(new Date('2022-07-29T00:00:00'));
+            const nextBirthday2 = calcBirthdayRemain(new Date('2022-05-03T00:00:00'));
+            const nextBirthday3 = calcBirthdayRemain(new Date('2022-01-01T00:00:00'));
+
+            document.getElementById('nextBirthday1').textContent = `曲天生日倒计时： ${nextBirthday1.months} 个月 ${nextBirthday1.days} 天 ${nextBirthday1.hours} 小时 ${nextBirthday1.minutes} 分钟 ${nextBirthday1.seconds} 秒`;
+            document.getElementById('nextBirthday2').textContent = `嘟嘟生日倒计时： ${nextBirthday2.months} 个月 ${nextBirthday2.days} 天 ${nextBirthday2.hours} 小时 ${nextBirthday2.minutes} 分钟 ${nextBirthday2.seconds} 秒`;
+            document.getElementById('nextBirthday3').textContent = `小行生日倒计时： ${nextBirthday3.months} 个月 ${nextBirthday3.days} 天 ${nextBirthday3.hours} 小时 ${nextBirthday3.minutes} 分钟 ${nextBirthday3.seconds} 秒`;
+        }
+
+        
+        function showDaysByGivenDay() {
+            document.getElementById('sinceEmployed').textContent = `您入职当前公司已 ${Math.abs(calculateTimeDifference('2023-05-15', 'days'))} 天！`;
+            // document.getElementById('sinceEmployed').textContent = `农历->公历： ${solarLunar.lunar2solar(1987,7,29)} `;
+        }
+
+        // Initial update
+        updateCountdown();
+        // Update every minute
+        setInterval(updateCountdown, 1000);
+
+        showDaysByGivenDay();
+    </script>
 
 </body>
+
 </html>
